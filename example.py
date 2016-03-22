@@ -8,17 +8,22 @@ def hideInfo(imgPath, hideInfo,newImgSavePath):
 	bmp = Bmp(imgPath)
 	width = bmp.getWidth()
 	height = bmp.getHeight()
-	length = (len(hideInfo)&0xff)
-
-	# save the length(0~255) into bitMapData
-	for i in range(8):
-		bmp.bitMapData[i] = (bmp.bitMapData[i]&(0xfe))|((length>>i)&1)
+	length = len(hideInfo)
 
 	for i in range(length):
 		hide = ord(hideInfo[i])
-		base = 8+7*i;
+		base = 7*i;
+		if base+7 > width*height*3:
+			print "Error, the hideInfo is too long!"
+			break
 		for j in range(7):
 			bmp.bitMapData[j+base] = (bmp.bitMapData[j+base]&(0xfe))|((hide>>j)&1)
+	
+	# use 0 to present the end 
+	base = 7*length
+	if base+7 <= width*height*3:
+		for j in range(7):
+			bmp.bitMapData[j+base] = (bmp.bitMapData[j+base]&(0xfe))
 
 	bmp.saveToFile(newImgSavePath)
 
@@ -26,17 +31,16 @@ def showInfo(imgPath):
 	bmp = Bmp(imgPath)
 	width = bmp.getWidth()
 	height = bmp.getHeight()
-
-	length = 0;
-	for i in range(8):
-		length |= ((bmp.bitMapData[i]&1)<<i)
+	length = width*height*3
 
 	hideInfo = ''
 	for i in range(length):
-		base = 8+7*i
+		base = 7*i
 		hidechar = 0
 		for j in range(7):
 			hidechar |= ((bmp.bitMapData[j+base]&1)<<j)
+		if hidechar == 0:
+			break
 		hideInfo += chr(hidechar)
 
 	print hideInfo

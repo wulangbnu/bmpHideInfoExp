@@ -16,5 +16,5 @@ for i in range(0,width*height*3,3):
 	b = bmp.bitMapData[i+2]
 	# do something here
 	
-# after change the 	bmp.bitMapData, you can save it to a new file with a new file path
+# after change the bmp.bitMapData, you can save it to a new file with a new file path
 bmp.saveToFile("test_new.bmp")
