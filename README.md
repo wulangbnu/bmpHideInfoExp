@@ -10,7 +10,7 @@ The function files that guide students to hide information in a bmp img file.
 
 `python example.py  test.bmp hideFile README.md  test_new.bmp`
 
-### show info
+### Show info
 
 `python example.py  test_new.bmp show`
 
