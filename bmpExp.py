@@ -55,7 +55,7 @@ class Bmp:
 
 	def saveToFile(self, newImgPath):
 		if len(self.bitMapData) != self.__biWidth*self.__biHeight*3:
-			print "Error, the length of bitMapData is bot valid!"
+			print "Error, the length of bitMapData is not valid!"
 			return
 		try:
 			newImg =  open(newImgPath,'wb')

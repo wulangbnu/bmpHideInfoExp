@@ -43,13 +43,21 @@ def showInfo(imgPath):
 
 if __name__ == '__main__':
 	if len(sys.argv) != 5 and len(sys.argv) != 3:
-		print "usage: python example.py bmpImgPath hide hideInfo(max length 255) newBmpImgSavePath or python example.py bmpImgPath show"
+		print "usage: python example.py bmpImgPath hide hideInfo(hideFile hideFilePath) newBmpImgSavePath or python example.py bmpImgPath show"
 	
 	elif len(sys.argv) == 5:
-		if sys.argv[2] != 'hide':
-			print "usage: python example.py bmpImgPath hide hideInfo(max length 255) newBmpImgSavePath"
-		else:
+		if sys.argv[2] != 'hide' and sys.argv[2] != 'hideFile':
+			print "usage: python example.py bmpImgPath hide hideInfo(hideFile hideFilePath) newBmpImgSavePath"
+		elif sys.argv[2] == 'hide':
 			hideInfo(sys.argv[1],sys.argv[3],sys.argv[4])
+		else:
+			try:
+				hideFile = open(sys.argv[3],'r')
+				hideInfo(sys.argv[1],hideFile.read(),sys.argv[4])
+			except Exception, e:
+				print e
+			finally:
+				hideFile.close()
 
 	elif len(sys.argv) == 3:
 		if sys.argv[2] != 'show':
